@@ -29,7 +29,7 @@ public class Cart extends HttpServlet {
 		System.out.print("name= " + name + "row = " + row + "seat= " + seat + "zone" + zone);
 
 		/* StoreProduct Function stores the Purchased product in Orders HashMap.*/	
-		utility.storeProduct(name, price, seat, zone);
+		utility.storeProduct(name, price, row,seat);
 
 		displayCart(request, response);
 	}

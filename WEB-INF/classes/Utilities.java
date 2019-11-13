@@ -201,13 +201,13 @@ public class Utilities extends HttpServlet {
 
 		/* StoreProduct Function stores the Purchased product in Orders HashMap according to the User Names.*/
 
-	public void storeProduct(String name,double price,String maker, String acc){
+	public void storeProduct(String matchName,String zoneName, double price,String row, String seat){
 		if(!OrdersHashMap.orders.containsKey(username())){	
 			ArrayList<OrderItem> arr = new ArrayList<OrderItem>();
 			OrdersHashMap.orders.put(username(), arr);
 		}
 		ArrayList<OrderItem> orderItems = OrdersHashMap.orders.get(username());
-		OrderItem orderitem = new OrderItem(name, price, maker, acc);
+		OrderItem orderitem = new OrderItem(matchName, zoneName, price, row ,seat);
 			orderItems.add(orderitem);
 		System.out.println("Printing from store product of the hashmap "+ OrdersHashMap.orders);
 
