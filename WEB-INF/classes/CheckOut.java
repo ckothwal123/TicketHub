@@ -54,6 +54,7 @@ public class CheckOut extends HttpServlet {
 		// for each order iterate and display the order name price
 		for (OrderItem oi : utility.getCustomerOrders()) 
 		{
+			System.out.println("Orders from checkout " + oi);
 			pw.print("<tr><td> Product Purchased:</td><td>");
 			pw.print(oi.getName()+"</td></tr><tr><td>");
 			pw.print("<input type='hidden' name='orderPrice' value='"+oi.getPrice()+"'>");
@@ -76,7 +77,7 @@ public class CheckOut extends HttpServlet {
 		pw.print("<tr><td colspan='2'>");
 		pw.print("<input type='submit' name='submit' class='btnbuy'>");
         pw.print("</td></tr></table></form>");
-		pw.print("</div></div></div>");		
+		pw.print("</div></div></div><div class='clear'></div>");		
 		utility.printHtml("Footer.html");
 	    }
         catch(Exception e)

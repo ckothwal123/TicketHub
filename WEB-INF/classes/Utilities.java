@@ -199,48 +199,126 @@ public class Utilities extends HttpServlet {
 		return 0;
 	}
 
-	// store the payment details for orders
-	public void storePayment(int orderId, String orderName, double orderPrice, String userAddress,
-			String creditCardNo) {
-		HashMap<Integer, ArrayList<OrderPayment>> orderPayments = new HashMap<Integer, ArrayList<OrderPayment>>();
-		String TOMCAT_HOME = System.getProperty("catalina.home");
-		// get the payment details file
-		try {
-			FileInputStream fileInputStream = new FileInputStream(
-					new File(TOMCAT_HOME + "\\webapps\\Tutorial_1\\PaymentDetails.txt"));
-			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-			orderPayments = (HashMap) objectInputStream.readObject();
-		} catch (Exception e) {
+		/* StoreProduct Function stores the Purchased product in Orders HashMap according to the User Names.*/
 
+	public void storeProduct(String name,double price,String maker, String acc){
+		if(!OrdersHashMap.orders.containsKey(username())){	
+			ArrayList<OrderItem> arr = new ArrayList<OrderItem>();
+			OrdersHashMap.orders.put(username(), arr);
 		}
-		if (orderPayments == null) {
-			orderPayments = new HashMap<Integer, ArrayList<OrderPayment>>();
-		}
-		// if there exist order id already add it into same list for order id or create
-		// a new record with order id
+		ArrayList<OrderItem> orderItems = OrdersHashMap.orders.get(username());
+		OrderItem orderitem = new OrderItem(name, price, maker, acc);
+			orderItems.add(orderitem);
+		System.out.println("Printing from store product of the hashmap "+ OrdersHashMap.orders);
 
-		if (!orderPayments.containsKey(orderId)) {
-			ArrayList<OrderPayment> arr = new ArrayList<OrderPayment>();
-			orderPayments.put(orderId, arr);
-		}
-		ArrayList<OrderPayment> listOrderPayment = orderPayments.get(orderId);
-		OrderPayment orderpayment = new OrderPayment(orderId, username(), orderName, orderPrice, userAddress,
-				creditCardNo);
-		listOrderPayment.add(orderpayment);
-
-		// add order details into file
-
-		try {
-			FileOutputStream fileOutputStream = new FileOutputStream(
-					new File(TOMCAT_HOME + "\\webapps\\Tutorial_1\\PaymentDetails.txt"));
-			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-			objectOutputStream.writeObject(orderPayments);
-			objectOutputStream.flush();
-			objectOutputStream.close();
-			fileOutputStream.close();
-		} catch (Exception e) {
-			System.out.println("inside exception file not written properly");
-		}
+		// if(type.equals("consoles")){
+		// 	Console console;
+		// 	console = SaxParserDataStore.consoles.get(name);
+		// 	OrderItem orderitem = new OrderItem(console.getName(), console.getPrice(), console.getImage(), console.getRetailer());
+		// 	orderItems.add(orderitem);
+		// }
+		// if(type.equals("tvs")){
+		// 	Tv tv;
+		// 	tv = SaxParserDataStore.tvs.get(name);
+		// 	OrderItem orderitem = new OrderItem(tv.getName(), tv.getPrice(), tv.getImage(), tv.getRetailer());
+		// 	orderItems.add(orderitem);
+		// }
+		// if(type.equals("soundSystems")){
+		// 	SoundSystem soundSystem;
+		// 	soundSystem = SaxParserDataStore.soundSystems.get(name);
+		// 	OrderItem orderitem = new OrderItem(soundSystem.getName(), soundSystem.getPrice(), soundSystem.getImage(), soundSystem.getRetailer());
+		// 	orderItems.add(orderitem);
+		// }
+		// if(type.equals("phones")){
+		// 	Phone phone;
+		// 	phone = SaxParserDataStore.phones.get(name);
+		// 	OrderItem orderitem = new OrderItem(phone.getName(),phone.getPrice(), phone.getImage(), phone.getRetailer());
+		// 	orderItems.add(orderitem);
+		// }
+		// if(type.equals("headphones")){
+		// 	Headphone headphone;
+		// 	headphone = SaxParserDataStore.headphones.get(name);
+		// 	OrderItem orderitem = new OrderItem(headphone.getName(),headphone.getPrice(), headphone.getImage(), headphone.getRetailer());
+		// 	orderItems.add(orderitem);
+		// }
+		// if(type.equals("laptops")){
+		// 	Laptop laptop;
+		// 	laptop = SaxParserDataStore.laptops.get(name);
+		// 	OrderItem orderitem = new OrderItem(laptop.getName(),laptop.getPrice(), laptop.getImage(), laptop.getRetailer());
+		// 	orderItems.add(orderitem);
+		// }
+		// if(type.equals("smartWatches")){
+		// 	SmartWatch smartWatch;
+		// 	smartWatch = SaxParserDataStore.smartWatches.get(name);
+		// 	OrderItem orderitem = new OrderItem(smartWatch.getName(),smartWatch.getPrice(), smartWatch.getImage(), smartWatch.getRetailer());
+		// 	orderItems.add(orderitem);
+		// }
+		// if(type.equals("vas")){
+		// 	Va va = null;
+		// 	va = SaxParserDataStore.vas.get(name);
+		// 	OrderItem orderitem = new OrderItem(va.getName(), va.getPrice(), va.getImage(), va.getRetailer());
+		// 	orderItems.add(orderitem);
+		// }
+		// if(type.equals("fitnessWatches")){
+		// 	FitnessWatch fitnessWatch = null;
+		// 	fitnessWatch = SaxParserDataStore.fitnessWatches.get(name);
+		// 	OrderItem orderitem = new OrderItem(fitnessWatch.getName(), fitnessWatch.getPrice(), fitnessWatch.getImage(), fitnessWatch.getRetailer());
+		// 	orderItems.add(orderitem);
+		// }
+		// if(type.equals("wirelessplan")){
+		// 	WirelessPlan wirelessPlan = null;
+		// 	wirelessPlan = SaxParserDataStore.wirelessPlans.get(name);
+		// 	OrderItem orderitem = new OrderItem(wirelessPlan.getName(), wirelessPlan.getPrice(), wirelessPlan.getImage(), wirelessPlan.getRetailer());
+		// 	orderItems.add(orderitem);
+		// }
+		// if(type.equals("accessories")){	
+		// 	Accessory accessory = SaxParserDataStore.accessories.get(name); 
+		// 	OrderItem orderitem = new OrderItem(accessory.getName(), accessory.getPrice(), accessory.getImage(), accessory.getRetailer());
+		// 	orderItems.add(orderitem);
+		// }
+		
 	}
+	
+
+	// store the payment details for orders
+	public void storePayment(int orderId,
+	String orderName,double orderPrice,String userAddress,String creditCardNo){
+	// HashMap<Integer, ArrayList<OrderPayment>> orderPayments= new HashMap<Integer, ArrayList<OrderPayment>>();
+	// String TOMCAT_HOME = System.getProperty("catalina.home");
+	// 	// get the payment details file 
+	HashMap<Integer, ArrayList<OrderPayment>> orderPayments= new HashMap<Integer, ArrayList<OrderPayment>>();
+		// get the payment details file 
+	try
+	{
+		orderPayments=MySqlDataStoreUtilities.selectOrder();
+	}
+	catch(Exception e)
+	{
+		
+	}
+	if(orderPayments==null)
+	{
+		orderPayments = new HashMap<Integer, ArrayList<OrderPayment>>();
+	}
+		// if there exist order id already add it into same list for order id or create a new record with order id
+		
+	if(!orderPayments.containsKey(orderId)){	
+		ArrayList<OrderPayment> arr = new ArrayList<OrderPayment>();
+		orderPayments.put(orderId, arr);
+	}
+	ArrayList<OrderPayment> listOrderPayment = orderPayments.get(orderId);		
+	OrderPayment orderpayment = new OrderPayment(orderId,username(),orderName,orderPrice,userAddress,creditCardNo);
+	listOrderPayment.add(orderpayment);	
+		
+		// add order details into database
+	try
+	{	
+		MySqlDataStoreUtilities.insertOrder(orderId,username(),orderName,orderPrice,userAddress,creditCardNo);
+	}
+	catch(Exception e)
+	{
+		System.out.println("inside exception file not written properly");
+	}	
+}
 
 }

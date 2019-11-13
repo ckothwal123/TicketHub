@@ -32,6 +32,7 @@ public class Registration extends HttpServlet {
 		String password = request.getParameter("password");
 		String repassword = request.getParameter("repassword");
 		String usertype = "customer";
+		System.out.println("Printing values from registration" + username + password + repassword);
 		if(!utility.isLoggedin())
 			usertype = request.getParameter("usertype");
 
@@ -43,16 +44,13 @@ public class Registration extends HttpServlet {
 		}
 		else
 		{
+
+			//get the userdata from sql database to hashmap
 			HashMap<String, User> hm=new HashMap<String, User>();
-			String TOMCAT_HOME = System.getProperty("catalina.home");
-
-			//get the user details from file 
-
+			
 			try
 			{
- 			 FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME+"\\webapps\\Tutorial_1\\UserDetails.txt"));
-			 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);	      
-			 hm= (HashMap)objectInputStream.readObject();
+				hm=MySqlDataStoreUtilities.selectUser();
 			}
 			catch(Exception e)
 			{
@@ -70,12 +68,7 @@ public class Registration extends HttpServlet {
 
 				User user = new User(username,password,usertype);
 				hm.put(username, user);
-			    FileOutputStream fileOutputStream = new FileOutputStream(TOMCAT_HOME+"\\webapps\\Tutorial_1\\UserDetails.txt");
-        		ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-           	 	objectOutputStream.writeObject(hm);
-				objectOutputStream.flush();
-				objectOutputStream.close();       
-				fileOutputStream.close();
+				MySqlDataStoreUtilities.insertUser(username,password,repassword,usertype);					
 				HttpSession session = request.getSession(true);				
 				session.setAttribute("login_msg", "Your "+usertype+" account has been created. Please login");
 				if(!utility.isLoggedin()){
@@ -103,8 +96,8 @@ public class Registration extends HttpServlet {
 			throws ServletException, IOException {
 		Utilities utility = new Utilities(request, pw);
 		utility.printHtml("Header.html");
-		pw.print("<div class='post' style='float: none; width: 100%'>");
-		pw.print("<h2 class='title meta'><a style='font-size: 24px;'>Login</a></h2>"
+		pw.print("<div id='container' class='width' style='float: none;>");
+		pw.print("<h2 class='title meta'><a style='font-size: 24px;'>Registration</a></h2>"
 				+ "<div class='entry'>"
 				+ "<div style='width:400px; margin:25px; margin-left: auto;margin-right: auto;'>");
 		if (error)
@@ -120,7 +113,7 @@ public class Registration extends HttpServlet {
 				+ "<h3>User Type</h3></td><td><select name='usertype' class='input'><option value='customer' selected>Customer</option><option value='retailer'>Store Manager</option><option value='manager'>Salesman</option></select>"
 				+ "</td></tr></table>"
 				+ "<input type='submit' class='btnbuy' name='ByUser' value='Create User' style='float: right;height: 20px margin: 20px; margin-right: 10px;'></input>"
-				+ "</form>" + "</div></div></div>");
+				+ "</form>" + "</div></div><div class='clear'></div>");
 		utility.printHtml("Footer.html");
 	}
 }

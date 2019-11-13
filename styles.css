@@ -22,6 +22,16 @@ table {
 	text-align: left;
 }
 
+table.gridtable {
+	font-family: verdana, arial, sans-serif;
+	font-size: 11px;
+	color: rgb(0, 0, 0);
+	border-width: 3px;
+	border-color: #000000;
+	border-collapse: collapse;
+	background-color: #fff;
+}
+
 th, td {
 	padding: 10px 10px;
 }

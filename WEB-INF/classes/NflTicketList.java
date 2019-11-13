@@ -51,16 +51,23 @@ public class NflTicketList extends HttpServlet {
             del = nfl.getDeliveryMethodList();
             del = del.replace("['", "");
             del = del.replace("']", "");
+            
             pw.print("<tr>");
             pw.print("<td><div id='shop_item'>");
             pw.print("<h3>" + nfl.getSectionName() + "<h5>Row " + nfl.getRowInfo() + "</h5><h5>Seat "
                     + nfl.getSeatNumber() + "</h5></h3>");
             pw.print("<h5>" + nfl.getZoneName() + " </h5><h5>" + del + "</h5>");
-
+            
             pw.print("</ul></div></td>");
 
             pw.print("<td><h5>Price<br>" + nfl.getCurrentPrice() + "</h5></td>");
-
+            pw.print("<td><form method='post' action='Cart'>" +
+					"<input type='hidden' name='name' value='"+nfl.getSectionName()+"'>"+
+					"<input type='hidden' name='row' value='"+nfl.getRowInfo()+"'>"+
+					"<input type='hidden' name='seat' value='"+nfl.getSeatNumber()+"'>"+
+                    "<input type='hidden' name='zone' value='"+nfl.getZoneName()+"'>"+
+                    "<input type='hidden' name='price' value='"+nfl.getCurrentPrice()+"'>"+
+					"<input type='submit' class='btnbuy' value='Buy Now'></form></td>");
             // pw.print("<td><form method='post' action='NflTicketList'>" + "<input
             // type='hidden' name='name' value='"
             // + entry.getKey() + "'>" + "<input type='hidden' name='type' value='nlf'>"

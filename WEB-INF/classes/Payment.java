@@ -44,7 +44,7 @@ public class Payment extends HttpServlet {
 			{
 
 				//set the parameter for each column and execute the prepared statement
-
+				System.out.println("Printing out the order details from payment page= "+orderId+oi.getName()+oi.getPrice()+userAddress+creditCardNo);
 				utility.storePayment(orderId,oi.getName(),oi.getPrice(),userAddress,creditCardNo);
 			}
 

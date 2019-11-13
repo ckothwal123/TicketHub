@@ -33,7 +33,7 @@ public class NflList extends HttpServlet {
 
         try {
             allNfl = MySqlDataStoreUtilities.getNfls();
-            System.out.println("allNfl" + allNfl);
+            
         } catch (Exception e) {
             System.out.println(e);
         }

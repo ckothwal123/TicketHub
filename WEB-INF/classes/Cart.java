@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.ArrayList;
 @WebServlet("/Cart")
 
 public class Cart extends HttpServlet {
@@ -17,19 +17,20 @@ public class Cart extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
 
-
+		
 		/* From the HttpServletRequest variable name,type,maker and acessories information are obtained.*/
-
+		
 		Utilities utility = new Utilities(request, pw);
 		String name = request.getParameter("name");
-		String type = request.getParameter("type");
-		String maker = request.getParameter("maker");
-		String access = request.getParameter("access");
-		System.out.print("name" + name + "type" + type + "maker" + maker + "accesee" + access);
+		String row = request.getParameter("row");
+		String seat = request.getParameter("seat");
+		String zone = request.getParameter("zone");
+		double price = Double.parseDouble(request.getParameter("price"));
+		System.out.print("name= " + name + "row = " + row + "seat= " + seat + "zone" + zone);
 
 		/* StoreProduct Function stores the Purchased product in Orders HashMap.*/	
-		
-		utility.storeProduct(name, type, maker, access);
+		utility.storeProduct(name, price, seat, zone);
+
 		displayCart(request, response);
 	}
 	
@@ -40,7 +41,7 @@ public class Cart extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
 		Utilities utility = new Utilities(request,pw);
-		Carousel carousel = new Carousel();
+		
 		if(!utility.isLoggedin()){
 			HttpSession session = request.getSession(true);				
 			session.setAttribute("login_msg", "Please Login to add items to cart");
@@ -74,13 +75,13 @@ public class Cart extends HttpServlet {
 			pw.print("<tr><td></td><td></td><td><input type='submit' name='CheckOut' value='CheckOut' class='btnbuy' /></td>");
 			pw.print("</table></form>");
 			/* This code is calling Carousel.java code to implement carousel feature*/
-			pw.print(carousel.carouselfeature(utility));
+			
 		}
 		else
 		{
 			pw.print("<h4 style='color:red'>Your Cart is empty</h4>");
 		}
-		pw.print("</div></div></div>");		
+		pw.print("</div></div></div><div class='clear'></div>");		
 		utility.printHtml("Footer.html");
 	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
